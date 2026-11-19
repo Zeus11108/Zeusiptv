@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#090b10">
 <title>ZEUS IPTV</title>
 
@@ -21,10 +21,24 @@
   --border:rgba(255,255,255,.08);
 }
 
-* {box-sizing:border-box}
+* {
+  box-sizing:border-box;
+  min-width:0;
+}
+
+html {
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+}
 
 body {
   margin:0;
+  width:100%;
+  min-width:320px;
+  max-width:100%;
+  overflow-x:hidden;
   background:var(--bg);
   color:var(--text);
   font-family:Inter,Arial,sans-serif;
@@ -36,6 +50,7 @@ button {cursor:pointer}
 
 /* HEADER */
 .header {
+  width:100%;
   height:76px;
   display:flex;
   align-items:center;
@@ -66,6 +81,7 @@ button {cursor:pointer}
   font-size:11px;
   color:#8bd6a5;
   letter-spacing:1px;
+  white-space:nowrap;
 }
 
 .status:before {
@@ -80,14 +96,19 @@ button {cursor:pointer}
 
 /* NAV */
 .nav {
+  width:100%;
   display:flex;
   gap:10px;
   padding:22px 6%;
   border-bottom:1px solid var(--border);
   overflow-x:auto;
+  scrollbar-width:none;
 }
 
+.nav::-webkit-scrollbar {display:none}
+
 .nav button {
+  flex:0 0 auto;
   background:transparent;
   color:var(--muted);
   border:1px solid transparent;
@@ -107,6 +128,8 @@ button {cursor:pointer}
 
 /* HERO */
 .hero {
+  width:auto;
+  min-width:0;
   margin:28px 6% 34px;
   min-height:230px;
   padding:42px;
@@ -144,9 +167,14 @@ button {cursor:pointer}
 .gold {color:var(--gold)}
 
 /* CONTENT */
-.main {padding:0 6% 70px}
+.main {
+  width:100%;
+  max-width:100%;
+  padding:0 6% 70px;
+}
 
 .toolbar {
+  width:100%;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -161,6 +189,7 @@ button {cursor:pointer}
 
 .search {
   width:min(300px,45%);
+  max-width:100%;
   padding:13px 16px;
   color:white;
   background:var(--panel);
@@ -172,12 +201,16 @@ button {cursor:pointer}
 .search:focus {border-color:var(--gold)}
 
 .layout {
+  width:100%;
+  max-width:100%;
   display:grid;
   grid-template-columns:220px minmax(0,1fr);
   gap:25px;
 }
 
 .sidebar {
+  width:100%;
+  min-width:0;
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:10px;
@@ -196,6 +229,7 @@ button {cursor:pointer}
   display:flex;
   flex-direction:column;
   gap:5px;
+  min-width:0;
 }
 
 .cat {
@@ -214,14 +248,15 @@ button {cursor:pointer}
   background:rgba(215,173,98,.09);
 }
 
-/* RESPONSIVE POSTER GRID */
+/* POSTERS */
 .grid {
+  width:100%;
+  max-width:100%;
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(130px,155px));
   justify-content:start;
   align-content:start;
   gap:22px 17px;
-  width:100%;
 }
 
 .item {
@@ -311,6 +346,7 @@ button {cursor:pointer}
 
 .player-box {
   width:min(100%,1050px);
+  max-width:100%;
   background:#10141d;
   border:1px solid var(--border);
   border-radius:12px;
@@ -333,6 +369,7 @@ button {cursor:pointer}
 }
 
 .close {
+  flex:0 0 auto;
   background:#252b36;
   border:0;
   color:white;
@@ -366,6 +403,7 @@ video {
 
 /* FOOTER */
 .footer {
+  width:100%;
   border-top:1px solid var(--border);
   text-align:center;
   padding:25px;
@@ -375,7 +413,7 @@ video {
 }
 
 /* TABLET */
-@media(max-width:1000px) {
+@media (min-width:751px) and (max-width:1100px) {
   .layout {
     grid-template-columns:190px minmax(0,1fr);
     gap:18px;
@@ -388,79 +426,157 @@ video {
 }
 
 /* MOBILE */
-@media(max-width:750px) {
+@media (max-width:750px) {
+  html,body {
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
+
   .header {
-    padding:0 5%;
+    width:100%;
     height:65px;
+    padding:0 5%;
   }
 
   .logo {font-size:21px}
 
   .nav {
+    width:100%;
     padding:15px 5%;
     gap:3px;
   }
 
-  .nav button {padding:10px 14px}
+  .nav button {
+    padding:10px 14px;
+    font-size:11px;
+  }
 
   .hero {
+    width:auto;
     margin:20px 5%;
     padding:27px 22px;
     min-height:190px;
   }
 
-  .main {padding:0 5% 50px}
-
-  .layout {
-    grid-template-columns:1fr;
-    gap:16px;
+  .hero h1 {
+    font-size:clamp(27px,7vw,38px);
+    letter-spacing:-1px;
   }
 
-  .sidebar {padding:13px}
+  .hero p {font-size:13px}
 
-  .categories {
-    flex-direction:row;
-    overflow-x:auto;
-    padding-bottom:5px;
-  }
-
-  .cat {
-    width:auto;
-    white-space:nowrap;
+  .main {
+    width:100%;
+    max-width:100%;
+    padding:0 5% 50px;
   }
 
   .toolbar {
-    align-items:flex-start;
+    width:100%;
+    align-items:stretch;
     flex-direction:column;
+    gap:13px;
+    margin-bottom:18px;
   }
 
-  .search {width:100%}
+  .toolbar h2 {font-size:19px}
+
+  .search {
+    width:100%;
+    max-width:100%;
+  }
+
+  .layout {
+    width:100%;
+    max-width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .sidebar {
+    width:100%;
+    max-width:100%;
+    padding:13px;
+  }
+
+  .sidebar h3 {margin-bottom:12px}
+
+  .categories {
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    gap:7px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding-bottom:7px;
+    scrollbar-width:thin;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .cat {
+    flex:0 0 auto;
+    width:auto;
+    white-space:nowrap;
+    padding:10px 12px;
+  }
+
+  .layout > section {
+    width:100%;
+    max-width:100%;
+    min-width:0;
+  }
 
   .grid {
+    width:100%;
+    max-width:100%;
     grid-template-columns:repeat(3,minmax(0,1fr));
+    justify-content:stretch;
     gap:18px 12px;
+  }
+
+  .item {
+    width:100%;
+    min-width:0;
+  }
+
+  .poster {
+    width:100%;
+    aspect-ratio:2/3;
   }
 
   .item-title {
     font-size:11px;
+    line-height:1.4;
     margin-top:7px;
   }
 
   .item-type {font-size:9px}
+
+  .footer {
+    padding:22px 10px;
+    font-size:9px;
+  }
+
+  .player-overlay {padding:10px}
+
+  .player-head {padding:13px}
 }
 
 /* SMALL MOBILE */
-@media(max-width:380px) {
+@media (max-width:380px) {
   .grid {
     grid-template-columns:repeat(2,minmax(0,1fr));
     gap:16px 12px;
   }
 
-  .hero h1 {font-size:29px}
+  .hero {padding:23px 18px}
+  .hero h1 {font-size:27px}
 }
 
 /* LARGE DESKTOP */
-@media(min-width:1400px) {
+@media (min-width:1400px) {
   .grid {
     grid-template-columns:repeat(auto-fill,minmax(140px,155px));
     gap:24px 20px;
@@ -598,6 +714,7 @@ async function checkConnection() {
   try {
     const response = await fetch(API, {method:"GET"});
     if (!response.ok) throw new Error("Offline");
+
     const data = await response.json();
 
     if (data.status !== "online") throw new Error("Offline");
@@ -730,9 +847,11 @@ function renderItems() {
       img.src = imageUrl;
       img.alt = item.name || "";
       img.loading = "lazy";
+
       img.onerror = () => {
         poster.innerHTML = '<div class="placeholder">ZEUS</div>';
       };
+
       poster.appendChild(img);
     } else {
       poster.innerHTML = '<div class="placeholder">ZEUS</div>';
@@ -861,9 +980,11 @@ function renderEpisodes(details) {
         const img = document.createElement("img");
         img.src = image;
         img.loading = "lazy";
+
         img.onerror = () => {
           poster.innerHTML = '<div class="placeholder">▶</div>';
         };
+
         poster.appendChild(img);
       } else {
         poster.innerHTML = '<div class="placeholder">▶</div>';
