@@ -1,0 +1,875 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b10">
+<title>ZEUS IPTV</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#090b10;
+  --panel:#11151e;
+  --panel2:#171d28;
+  --gold:#d7ad62;
+  --text:#f4f5f7;
+  --muted:#8992a2;
+  --border:rgba(255,255,255,.08);
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+}
+button,input {font:inherit}
+button {cursor:pointer}
+.hidden {display:none!important}
+
+/* HEADER */
+.header {
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+  border-bottom:1px solid var(--border);
+  background:rgba(9,11,16,.95);
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+.logo {
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:4px;
+}
+.logo span {color:var(--gold)}
+.header-right {
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+.status {
+  font-size:11px;
+  color:#8bd6a5;
+  letter-spacing:1px;
+}
+.status:before {
+  content:"";
+  display:inline-block;
+  width:7px;height:7px;
+  border-radius:50%;
+  background:#56d58a;
+  margin-right:8px;
+}
+
+/* NAV */
+.nav {
+  display:flex;
+  gap:10px;
+  padding:22px 6%;
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
+}
+.nav button {
+  background:transparent;
+  color:var(--muted);
+  border:1px solid transparent;
+  padding:11px 22px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.nav button.active {
+  color:var(--gold);
+  background:rgba(215,173,98,.09);
+  border-color:rgba(215,173,98,.28);
+}
+
+/* HERO */
+.hero {
+  margin:28px 6% 34px;
+  min-height:230px;
+  padding:42px;
+  border:1px solid rgba(215,173,98,.18);
+  border-radius:13px;
+  background:
+    radial-gradient(ellipse at 85% 40%,rgba(215,173,98,.15),transparent 40%),
+    linear-gradient(110deg,#171b24,#0d1017 70%);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.eyebrow {
+  color:var(--gold);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:3px;
+}
+.hero h1 {
+  font-size:clamp(30px,5vw,52px);
+  margin:13px 0;
+  font-weight:900;
+  letter-spacing:-2px;
+}
+.hero p {
+  color:var(--muted);
+  max-width:520px;
+  line-height:1.7;
+  font-size:14px;
+}
+.gold {color:var(--gold)}
+
+/* CONTENT */
+.main {padding:0 6% 70px}
+.toolbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:23px;
+}
+.toolbar h2 {
+  font-size:21px;
+  margin:0;
+}
+.search {
+  width:min(300px,45%);
+  padding:13px 16px;
+  color:white;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:7px;
+  outline:none;
+}
+.search:focus {border-color:var(--gold)}
+.layout {
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:25px;
+}
+.sidebar {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:17px;
+  height:max-content;
+}
+.sidebar h3 {
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:2px;
+  margin:5px 0 15px;
+}
+.categories {
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.cat {
+  width:100%;
+  text-align:left;
+  padding:11px 10px;
+  border:0;
+  border-radius:6px;
+  color:#aeb6c4;
+  background:transparent;
+  font-size:12px;
+}
+.cat:hover,.cat.active {
+  color:var(--gold);
+  background:rgba(215,173,98,.09);
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
+  gap:18px;
+}
+.item {
+  min-width:0;
+  cursor:pointer;
+  transition:.2s;
+}
+.item:hover {transform:translateY(-5px)}
+.poster {
+  width:100%;
+  aspect-ratio:2/2.8;
+  border-radius:9px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.poster img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.poster .placeholder {
+  font-size:30px;
+  color:var(--gold);
+}
+.item-title {
+  font-size:12px;
+  font-weight:700;
+  line-height:1.5;
+  margin-top:10px;
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+.item-type {
+  font-size:10px;
+  color:var(--muted);
+  margin-top:5px;
+}
+.empty {
+  color:var(--muted);
+  font-size:13px;
+  padding:35px 10px;
+  text-align:center;
+  grid-column:1/-1;
+}
+.message {
+  padding:15px;
+  border-radius:8px;
+  background:var(--panel);
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:18px;
+  display:none;
+}
+.message.show {display:block}
+
+/* PLAYER */
+.player-overlay {
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.94);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.player-box {
+  width:min(100%,1050px);
+  background:#10141d;
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+}
+.player-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:17px 20px;
+  gap:15px;
+}
+.player-head strong {
+  font-size:13px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.close {
+  background:#252b36;
+  border:0;
+  color:white;
+  padding:9px 15px;
+  border-radius:6px;
+}
+video {
+  width:100%;
+  max-height:70vh;
+  background:black;
+  display:block;
+}
+.player-note {
+  padding:12px 20px;
+  font-size:11px;
+  color:var(--muted);
+}
+
+/* SERIES */
+.back {
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--gold);
+  padding:10px 15px;
+  border-radius:6px;
+  margin-bottom:18px;
+  font-size:12px;
+}
+
+/* FOOTER */
+.footer {
+  border-top:1px solid var(--border);
+  text-align:center;
+  padding:25px;
+  color:#596170;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+@media(max-width:750px) {
+  .header {padding:0 5%;height:65px}
+  .logo {font-size:21px}
+  .nav {padding:15px 5%;gap:3px}
+  .nav button {padding:10px 14px}
+  .hero {margin:20px 5%;padding:27px 22px;min-height:190px}
+  .main {padding:0 5% 50px}
+  .layout {grid-template-columns:1fr;gap:16px}
+  .sidebar {padding:13px}
+  .categories {
+    flex-direction:row;
+    overflow-x:auto;
+    padding-bottom:5px;
+  }
+  .cat {width:auto;white-space:nowrap}
+  .grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+  .toolbar {align-items:flex-start;flex-direction:column}
+  .search {width:100%}
+}
+@media(max-width:380px) {
+  .grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">ZEUS<span>.</span></div>
+  <div class="header-right">
+    <div class="status" id="connection">CONNECTING</div>
+  </div>
+</header>
+
+<nav class="nav">
+  <button class="active" data-kind="live">LIVE TV</button>
+  <button data-kind="movies">MOVIES</button>
+  <button data-kind="series">SERIES</button>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">PREMIUM ENTERTAINMENT</div>
+  <h1>WELCOME TO <span class="gold">ZEUS</span></h1>
+  <p>Your entertainment universe. Explore live television, movies and series in one place.</p>
+</section>
+
+<main class="main">
+  <div id="message" class="message"></div>
+
+  <div class="toolbar">
+    <h2 id="heading">Explore Live TV</h2>
+    <input id="search" class="search" placeholder="Search channels..." autocomplete="off">
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <h3>CATEGORIES</h3>
+      <div id="categories" class="categories">
+        <div class="empty">Loading categories...</div>
+      </div>
+    </aside>
+
+    <section>
+      <div id="items" class="grid">
+        <div class="empty">Loading content...</div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">ZEUS IPTV · ENTERTAINMENT WITHOUT LIMITS</footer>
+
+<div id="player" class="player-overlay hidden">
+  <div class="player-box">
+    <div class="player-head">
+      <strong id="playing">NOW PLAYING</strong>
+      <button class="close" id="closePlayer">CLOSE ✕</button>
+    </div>
+    <video id="video" controls autoplay playsinline></video>
+    <div class="player-note" id="playerNote">Loading stream...</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script>
+(() => {
+"use strict";
+
+/* API CONFIGURATION */
+const API = "https://zeus-iptv-api.zeyad-lab112005.workers.dev/api";
+const STREAM = "https://zeus-iptv-api.zeyad-lab112005.workers.dev";
+
+const $ = id => document.getElementById(id);
+
+let kind = "live";
+let categories = [];
+let currentItems = [];
+let activeCategory = null;
+let hls = null;
+let previousView = null;
+
+const config = {
+  live: {
+    action: "get_live_categories",
+    contentAction: "get_live_streams",
+    heading: "Explore Live TV",
+    search: "Search channels..."
+  },
+  movies: {
+    action: "get_vod_categories",
+    contentAction: "get_vod_streams",
+    heading: "Explore Movies",
+    search: "Search movies..."
+  },
+  series: {
+    action: "get_series_categories",
+    contentAction: "get_series",
+    heading: "Explore Series",
+    search: "Search series..."
+  }
+};
+
+/* API REQUEST */
+async function api(action, extra = {}) {
+  const response = await fetch(API, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({action, ...extra})
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok || data.error) {
+    throw new Error(data.error || "Server error: " + response.status);
+  }
+
+  return data;
+}
+
+/* MESSAGE */
+function showMessage(text) {
+  $("message").textContent = text;
+  $("message").classList.add("show");
+}
+
+function hideMessage() {
+  $("message").classList.remove("show");
+}
+
+/* CONNECTION */
+async function checkConnection() {
+  try {
+    const response = await fetch(API, {method:"GET"});
+    if (!response.ok) throw new Error("Offline");
+    const data = await response.json();
+
+    if (data.status !== "online") throw new Error("Offline");
+
+    $("connection").textContent = "ONLINE";
+  } catch (error) {
+    $("connection").textContent = "OFFLINE";
+    showMessage("Cannot connect to ZEUS server. Please check the Worker.");
+  }
+}
+
+/* SWITCH SECTION */
+document.querySelectorAll(".nav button").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+
+    kind = button.dataset.kind;
+    activeCategory = null;
+    $("search").value = "";
+    $("heading").textContent = config[kind].heading;
+    $("search").placeholder = config[kind].search;
+
+    loadCategories();
+  });
+});
+
+/* LOAD CATEGORIES */
+async function loadCategories() {
+  hideMessage();
+  $("categories").innerHTML = '<div class="empty">Loading...</div>';
+  $("items").innerHTML = '<div class="empty">Loading content...</div>';
+
+  try {
+    const data = await api(config[kind].action);
+
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid categories response");
+    }
+
+    categories = data;
+    renderCategories();
+
+    if (categories.length) {
+      selectCategory(categories[0].category_id);
+    } else {
+      $("items").innerHTML = '<div class="empty">No categories found.</div>';
+    }
+  } catch (error) {
+    $("categories").innerHTML = "";
+    $("items").innerHTML = '<div class="empty">Unable to load content.</div>';
+    showMessage(error.message);
+  }
+}
+
+/* RENDER CATEGORIES */
+function renderCategories() {
+  $("categories").innerHTML = "";
+
+  categories.forEach(category => {
+    const button = document.createElement("button");
+    button.className = "cat";
+    button.textContent = category.category_name || "Category";
+    button.dataset.id = category.category_id;
+
+    button.addEventListener("click", () => {
+      selectCategory(category.category_id);
+    });
+
+    $("categories").appendChild(button);
+  });
+}
+
+/* SELECT CATEGORY */
+async function selectCategory(id) {
+  activeCategory = String(id);
+
+  document.querySelectorAll(".cat").forEach(button => {
+    button.classList.toggle("active", button.dataset.id === activeCategory);
+  });
+
+  hideMessage();
+  $("items").innerHTML = '<div class="empty">Loading...</div>';
+
+  try {
+    const data = await api(config[kind].contentAction, {
+      category_id: id
+    });
+
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid content response");
+    }
+
+    currentItems = data;
+    renderItems();
+  } catch (error) {
+    $("items").innerHTML = '<div class="empty">Could not load this category.</div>';
+    showMessage(error.message);
+  }
+}
+
+/* RENDER CONTENT */
+function renderItems() {
+  const query = $("search").value.toLowerCase().trim();
+
+  const filtered = currentItems.filter(item => {
+    return String(item.name || "").toLowerCase().includes(query);
+  });
+
+  $("items").innerHTML = "";
+
+  if (!filtered.length) {
+    $("items").innerHTML = '<div class="empty">No results found.</div>';
+    return;
+  }
+
+  filtered.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "item";
+
+    const poster = document.createElement("div");
+    poster.className = "poster";
+
+    const imageUrl = kind === "series"
+      ? (item.cover || item.cover_big)
+      : (item.stream_icon || item.cover);
+
+    if (imageUrl) {
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      img.alt = item.name || "";
+      img.loading = "lazy";
+      img.onerror = () => {
+        poster.innerHTML = '<div class="placeholder">ZEUS</div>';
+      };
+      poster.appendChild(img);
+    } else {
+      poster.innerHTML = '<div class="placeholder">ZEUS</div>';
+    }
+
+    const title = document.createElement("div");
+    title.className = "item-title";
+    title.textContent = item.name || "Untitled";
+
+    const type = document.createElement("div");
+    type.className = "item-type";
+    type.textContent = kind === "live" ? "LIVE CHANNEL" :
+                       kind === "movies" ? "MOVIE" : "TV SERIES";
+
+    card.append(poster, title, type);
+
+    card.addEventListener("click", () => {
+      if (kind === "series") {
+        openSeries(item);
+      } else {
+        playItem(item);
+      }
+    });
+
+    $("items").appendChild(card);
+  });
+}
+
+/* SEARCH */
+$("search").addEventListener("input", renderItems);
+
+/* PLAY LIVE / MOVIE */
+function playItem(item) {
+  const id = item.stream_id;
+
+  if (!id) {
+    showMessage("Stream ID is missing.");
+    return;
+  }
+
+  let extension = kind === "live"
+    ? "ts"
+    : (item.container_extension || "mp4");
+
+  extension = String(extension).replace(/^\./, "");
+
+  const url = STREAM + "/stream/" +
+    (kind === "live" ? "live" : "movies") +
+    "/" + encodeURIComponent(id) + "." + extension;
+
+  openPlayer(item.name || "ZEUS PLAYER", url);
+}
+
+/* SERIES DETAILS */
+async function openSeries(series) {
+  const id = series.series_id || series.id;
+
+  if (!id) {
+    showMessage("Series ID is missing.");
+    return;
+  }
+
+  previousView = currentItems;
+  $("items").innerHTML = '<div class="empty">Loading episodes...</div>';
+
+  try {
+    const details = await api("get_series_info", {
+      series_id: id
+    });
+
+    renderEpisodes(details);
+  } catch (error) {
+    $("items").innerHTML = '<div class="empty">Unable to load episodes.</div>';
+    showMessage(error.message);
+  }
+}
+
+/* RENDER EPISODES */
+function renderEpisodes(details) {
+  $("items").innerHTML = "";
+
+  const seasons = details.episodes || {};
+  let count = 0;
+
+  const back = document.createElement("button");
+  back.className = "back";
+  back.textContent = "← BACK TO SERIES";
+
+  back.addEventListener("click", () => {
+    currentItems = previousView || currentItems;
+    renderItems();
+  });
+
+  $("items").appendChild(back);
+
+  Object.entries(seasons).forEach(([season, episodes]) => {
+    if (!Array.isArray(episodes)) return;
+
+    const heading = document.createElement("div");
+    heading.style.gridColumn = "1/-1";
+    heading.style.color = "var(--gold)";
+    heading.style.fontWeight = "800";
+    heading.style.fontSize = "13px";
+    heading.style.padding = "12px 0";
+    heading.textContent = "SEASON " + season;
+
+    $("items").appendChild(heading);
+
+    episodes.forEach(episode => {
+      const episodeId = episode.id || episode.stream_id;
+      if (!episodeId) return;
+
+      count++;
+
+      const card = document.createElement("div");
+      card.className = "item";
+
+      const poster = document.createElement("div");
+      poster.className = "poster";
+      poster.style.aspectRatio = "16/10";
+
+      const image = episode.info &&
+        (episode.info.movie_image || episode.info.cover_big);
+
+      if (image) {
+        const img = document.createElement("img");
+        img.src = image;
+        img.loading = "lazy";
+        img.onerror = () => {
+          poster.innerHTML = '<div class="placeholder">▶</div>';
+        };
+        poster.appendChild(img);
+      } else {
+        poster.innerHTML = '<div class="placeholder">▶</div>';
+      }
+
+      const title = document.createElement("div");
+      title.className = "item-title";
+      title.textContent =
+        "Episode " + (episode.episode_num || "") +
+        " - " + (episode.title || "Episode");
+
+      const type = document.createElement("div");
+      type.className = "item-type";
+      type.textContent = "PLAY EPISODE";
+
+      card.append(poster, title, type);
+
+      card.addEventListener("click", () => {
+        playEpisode(episode);
+      });
+
+      $("items").appendChild(card);
+    });
+  });
+
+  if (!count) {
+    $("items").innerHTML = '<div class="empty">No episodes available.</div>';
+  }
+}
+
+/* PLAY SERIES EPISODE */
+function playEpisode(episode) {
+  const id = episode.id || episode.stream_id;
+  if (!id) return;
+
+  const ext = String(episode.container_extension || "mkv")
+    .replace(/^\./, "");
+
+  const url = STREAM + "/hls/series/" +
+    encodeURIComponent(id) + "." + ext;
+
+  openPlayer(episode.title || "SERIES EPISODE", url);
+}
+
+/* VIDEO PLAYER */
+function openPlayer(title, url) {
+  const video = $("video");
+
+  stopPlayer();
+
+  $("playing").textContent = title;
+  $("playerNote").textContent = "Connecting to stream...";
+  $("player").classList.remove("hidden");
+
+  const isHls = /\.m3u8($|\?)/i.test(url);
+
+  if (isHls && Hls.isSupported()) {
+    hls = new Hls({
+      enableWorker:true,
+      lowLatencyMode:false
+    });
+
+    hls.loadSource(url);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      video.play().catch(() => {});
+      $("playerNote").textContent = "Stream ready.";
+    });
+
+    hls.on(Hls.Events.ERROR, (event, data) => {
+      if (data.fatal) {
+        $("playerNote").textContent =
+          "Playback error. Try another stream or check browser support.";
+      }
+    });
+
+  } else {
+    video.src = url;
+
+    video.onloadedmetadata = () => {
+      video.play().catch(() => {});
+      $("playerNote").textContent = "Stream ready.";
+    };
+
+    video.onerror = () => {
+      $("playerNote").textContent =
+        "This format may not be supported by your browser.";
+    };
+  }
+}
+
+function stopPlayer() {
+  const video = $("video");
+
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+
+  video.pause();
+  video.removeAttribute("src");
+  video.load();
+}
+
+function closePlayer() {
+  stopPlayer();
+  $("player").classList.add("hidden");
+}
+
+$("closePlayer").addEventListener("click", closePlayer);
+
+$("player").addEventListener("click", event => {
+  if (event.target === $("player")) closePlayer();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closePlayer();
+});
+
+/* START */
+checkConnection();
+loadCategories();
+
+})();
+</script>
+</body>
+</html>
